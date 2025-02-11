@@ -1,4 +1,5 @@
 import psycopg2
+import os
 
 # Database connection details
 db_host = "poc-demo-database.cbqubpabumzf.eu-west-1.rds.amazonaws.com"
@@ -9,9 +10,10 @@ db_password = "Tatva4848#"
 # Table and column details
 table_name = "tasks"
 column_name = "task_deadline"
+column_type = "VARCHAR(255)"  # Adjust as needed
 
-# SQL query to drop the column
-drop_column_query = f'ALTER TABLE "{table_name}" DROP COLUMN IF EXISTS "{column_name}";'
+# SQL query to add a column
+add_column_query = f'ALTER TABLE "{table_name}" ADD COLUMN "{column_name}" {column_type};'
 
 connection = None  # Initialize connection variable
 
@@ -25,10 +27,10 @@ try:
     )
     cursor = connection.cursor()
 
-    # Execute the query to drop the column
-    cursor.execute(drop_column_query)
+    # Execute the query
+    cursor.execute(add_column_query)
     connection.commit()
-    print(f"Column '{column_name}' dropped from table '{table_name}' successfully.")
+    print(f"Column '{column_name}' added to table '{table_name}' successfully.")
 
 except Exception as e:
     print(f"Error: {e}")
